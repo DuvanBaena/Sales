@@ -8,5 +8,7 @@
         {
 
         }
+
+        public System.Data.Entity.DbSet<Sales.Common.Moldes.Product> Products { get; set; }
     }
 }
