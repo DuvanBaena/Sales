@@ -39,8 +39,15 @@
         private async void LoadProducts()
         {
             this.IsRefreshing = true;
-            var url = Application.Current.Resources["UrlAPI"].ToString();
 
+            var conecction = await this.apiService.CheckConnection();
+            if (!conecction.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert("Error", conecction.Message, "Accept");
+                return;
+            }
+            var url = Application.Current.Resources["UrlAPI"].ToString();
             var response = await this.apiService.GetList<Product>(url, "/api", "/Products");
             if (!response.IsSuccess)
             {
