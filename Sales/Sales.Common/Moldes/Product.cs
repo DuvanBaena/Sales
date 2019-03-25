@@ -9,8 +9,13 @@
         public int ProductId { get; set; }        
 
         [Required]
-        [StringLength(50)]
+        [StringLength(50)]       
         public string Description { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Remarks { get; set; }
+
+        public string ImagePath { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public Decimal Price { get; set; }
