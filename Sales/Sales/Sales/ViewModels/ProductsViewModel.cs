@@ -6,8 +6,9 @@
     using System.Windows.Input;
     using Common.Moldes;
     using GalaSoft.MvvmLight.Command;
-    using Sales.Services;
     using Xamarin.Forms;
+    using Helpers;
+    using Services;
 
     public class ProductsViewModel  : BaseViewModel
     {
@@ -44,15 +45,17 @@
             if (!conecction.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Error", conecction.Message, "Accept");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, conecction.Message, Languages.Accept);
                 return;
             }
             var url = Application.Current.Resources["UrlAPI"].ToString();
-            var response = await this.apiService.GetList<Product>(url, "/api", "/Products");
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlProductController"].ToString();
+            var response = await this.apiService.GetList<Product>(url, prefix, controller);
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
                 return;
             }
 
