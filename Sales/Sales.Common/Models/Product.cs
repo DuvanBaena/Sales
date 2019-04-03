@@ -1,4 +1,4 @@
-﻿namespace Sales.Common.Moldes
+﻿namespace Sales.Common.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -15,6 +15,7 @@
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        [Display(Name = "Image")]
         public string ImagePath { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]

@@ -3,12 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Windows.Input;
-    using Common.Moldes;
+    using System.Windows.Input;    
     using GalaSoft.MvvmLight.Command;
     using Xamarin.Forms;
     using Helpers;
     using Services;
+    using Sales.Common.Models;
 
     public class ProductsViewModel  : BaseViewModel
     {

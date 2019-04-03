@@ -1,7 +1,7 @@
 ﻿namespace Sales.Domain.Models
 {
      using System.Data.Entity;
-     using Common.Moldes;
+     using Sales.Common.Models;
 
     public class DataContext : DbContext
     {

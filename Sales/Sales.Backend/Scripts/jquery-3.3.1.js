@@ -6045,14 +6045,14 @@ var getStyles = function( elem ) {
 
 		// Support: IE <=11 only, Firefox <=30 (#15098, #14150)
 		// IE throws on elements created in popups
-		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+		// FF meanwhile throws on frame elements through "defaultproductgetComputedStyle"
 		var view = elem.ownerDocument.defaultView;
 
-		if ( !view || !view.opener ) {
+		if ( !view || !productopener ) {
 			view = window;
 		}
 
-		return view.getComputedStyle( elem );
+		return productgetComputedStyle( elem );
 	};
 
 var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
