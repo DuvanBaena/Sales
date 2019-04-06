@@ -37,7 +37,7 @@
                     return "NoImage";
                 }
 
-                return $"https://projectsales.azurewebsites.net/{this.ImagePath.Substring(1)}";
+                return $"https://pruebassales.azurewebsites.net{this.ImagePath.Substring(1)}";
             }
         }
 

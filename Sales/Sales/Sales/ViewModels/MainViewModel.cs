@@ -1,7 +1,7 @@
 ﻿namespace Sales.ViewModels
 {
-    using GalaSoft.MvvmLight.Command;
     using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;    
     using Views;    
     using Xamarin.Forms;
 
@@ -9,9 +9,11 @@
     {
         public ProductsViewModel Products { get; set; }
 
+        public AddProductViewModel AddProduct { get; set; }
+
         public MainViewModel()
         {
-            this.Products = new ProductsViewModel();
+            this.Products = new ProductsViewModel();            
         }
 
         public ICommand AddproductCommand
@@ -19,14 +21,13 @@
             get
             {
                 return new RelayCommand(GoToAddProduct);
-
             }
-
         }
 
         private async void GoToAddProduct()
         {
-           await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
+            this.AddProduct = new AddProductViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
         }
     }
 }
