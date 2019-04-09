@@ -34,7 +34,7 @@
             {
                 if (string.IsNullOrEmpty(this.ImagePath))
                 {
-                    return "NoImage";
+                    return "NotImage";
                 }
 
                 return $"https://pruebassales.azurewebsites.net{this.ImagePath.Substring(1)}";
