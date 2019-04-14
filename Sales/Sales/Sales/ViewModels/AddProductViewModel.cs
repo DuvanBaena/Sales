@@ -1,15 +1,17 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Sales.Helpers;
-using System;
-using System.Windows.Input;
-using Xamarin.Forms;
-
-namespace Sales.ViewModels
+﻿namespace Sales.ViewModels
 {
+    using System;
+    using Sales.Services;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using Helpers;    
+    using Xamarin.Forms;
+    using Sales.Common.Models;
+
     public class AddProductViewModel    : BaseViewModel
     {
         #region Attribute
-
+        private ApiService apiService;
         private bool isRunning;
 
         private bool isEnabled;
@@ -44,7 +46,8 @@ namespace Sales.ViewModels
 
         public AddProductViewModel()
         {
-            this.IsEnabled = true;
+           this.apiService = new ApiService();
+           this.IsEnabled = true;
         }
 
 
@@ -67,7 +70,7 @@ namespace Sales.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
-                    Languages.DescriptionError, 
+                    Languages.DescriptionError,
                     Languages.Accept);
                 return;
             }
@@ -93,6 +96,49 @@ namespace Sales.ViewModels
                 return;
 
             }
+
+            this.isRunning = true;
+            this.IsEnabled = false;
+
+            var conecction = await this.apiService.CheckConnection();
+            if (!conecction.IsSuccess)
+            {
+                this.isRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error, 
+                    conecction.Message, 
+                    Languages.Accept);
+                return;
+            }
+
+            var product = new Product
+            {
+                Description = this.Description,
+                Price = price,
+                Remarks = this.Remarks,
+
+            };
+
+            var url = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlProductController"].ToString();
+            var response = await this.apiService.Post(url, prefix, controller, product);
+
+            if (!response.IsSuccess)
+            {
+                this.isRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error, 
+                    response.Message, 
+                    Languages.Accept);
+                return;
+            }
+
+            this.isRunning = false;
+            this.IsEnabled = true;
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
 
