@@ -7,6 +7,7 @@
     using Helpers;    
     using Xamarin.Forms;
     using Sales.Common.Models;
+    using System.Linq;
 
     public class AddProductViewModel    : BaseViewModel
     {
@@ -136,6 +137,10 @@
                 return;
             }
 
+            var newProduct = (Product)response.Result;
+            var viewModel = ProductsViewModel.GetIntance();
+            viewModel.Products.Add(newProduct);
+            
             this.isRunning = false;
             this.IsEnabled = true;
             await Application.Current.MainPage.Navigation.PopAsync();
