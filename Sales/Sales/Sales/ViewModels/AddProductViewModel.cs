@@ -1,18 +1,27 @@
-﻿namespace Sales.ViewModels
+﻿
+
+namespace Sales.ViewModels
 {
     using System;
-    using Sales.Services;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
-    using Helpers;    
-    using Xamarin.Forms;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
     using Sales.Common.Models;
-    using System.Linq;
+    using Sales.Helpers;
+    using Sales.Services;
+    using Xamarin.Forms;   
 
-    public class AddProductViewModel    : BaseViewModel
+    public class AddProductViewModel : BaseViewModel
     {
         #region Attribute
+
+        private MediaFile file;
+
+        private ImageSource imageSource;
+
         private ApiService apiService;
+
         private bool isRunning;
 
         private bool isEnabled;
@@ -26,12 +35,20 @@
         public string Price { get; set; }
 
         public string Remarks { get; set; }
+       
 
         public bool IsRunning
         {
             get { return this.isRunning; }
             set { this.SetValue(ref this.isRunning, value); }
             
+        }
+
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set { this.SetValue(ref this.imageSource, value); }
+
         }
 
         public bool IsEnabled
@@ -49,12 +66,65 @@
         {
            this.apiService = new ApiService();
            this.IsEnabled = true;
+            this.ImageSource = "NotImage";
         }
 
 
         #endregion
 
         #region Commands
+
+        public ICommand ChangeImageCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeImage);
+            }
+
+        }
+
+        private async void ChangeImage()
+        {
+            await CrossMedia.Current.Initialize();
+
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                Languages.ImageSource,
+                Languages.Cancel,
+                null,
+                Languages.FromGallery,
+                Languages.NewPicture);
+
+            if (source == Languages.Cancel)
+            {
+                this.file = null;
+                return;
+            }
+
+            if (source == Languages.NewPicture)
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+                    }
+                );
+            }
+            else
+            {
+                this.file = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (this.file != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+                    return stream;
+                });
+            }
+        }
 
         public ICommand SaveCommand
         {
@@ -98,13 +168,13 @@
 
             }
 
-            this.isRunning = true;
+            this.IsRunning = true;
             this.IsEnabled = false;
 
             var conecction = await this.apiService.CheckConnection();
             if (!conecction.IsSuccess)
             {
-                this.isRunning = false;
+                this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error, 
@@ -128,7 +198,7 @@
 
             if (!response.IsSuccess)
             {
-                this.isRunning = false;
+                this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error, 
@@ -141,7 +211,7 @@
             var viewModel = ProductsViewModel.GetIntance();
             viewModel.Products.Add(newProduct);
             
-            this.isRunning = false;
+            this.IsRunning = false;
             this.IsEnabled = true;
             await Application.Current.MainPage.Navigation.PopAsync();
         }
