@@ -7,15 +7,43 @@
 
     public class MainViewModel
     {
+        #region Properties
+        public EditProductViewModel EditProduct { get; set; }
+
         public ProductsViewModel Products { get; set; }
 
         public AddProductViewModel AddProduct { get; set; }
+        #endregion
+
+        #region Constructor
 
         public MainViewModel()
         {
-            this.Products = new ProductsViewModel();            
+            instance = this;
+            this.Products = new ProductsViewModel();
+        }
+        #endregion
+
+        #region Singleton
+
+        private static MainViewModel instance;
+
+        public static MainViewModel GetIntance()
+        {
+
+            if (instance == null)
+            {
+                return new MainViewModel();
+            }
+
+            return instance;
+
         }
 
+
+        #endregion
+
+        #region Commands
         public ICommand AddproductCommand
         {
             get
@@ -28,6 +56,7 @@
         {
             this.AddProduct = new AddProductViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
-        }
+        } 
+        #endregion
     }
 }
