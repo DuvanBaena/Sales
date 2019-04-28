@@ -5,6 +5,7 @@ using Xamarin.Forms.Xaml;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Sales
 {
+    using Sales.ViewModels;
     using Sales.Views;
 
     public partial class App : Application
@@ -13,7 +14,8 @@ namespace Sales
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new ProductsPage());
+            MainViewModel.GetIntance().Login = new LoginViewModel();
+            MainPage = new LoginPage();
         }
 
         protected override void OnStart()
