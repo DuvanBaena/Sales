@@ -2,21 +2,19 @@
 namespace Sales.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
-    using Sales.Helpers;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Windows.Input;
     using Xamarin.Forms;
+    using Helpers;
+    using Services;
 
     public class LoginViewModel : BaseViewModel
     {
         #region Attribute
-
+        private ApiService apiService; 
         #endregion
 
         #region Properties
-        public string EMail { get; set; }
+        public string Email { get; set; }
 
         public string Password { get; set; }
 
@@ -42,8 +40,10 @@ namespace Sales.ViewModels
         #region Constructor
         public LoginViewModel()
         {
+            this.apiService = new ApiService();
             this.IsEnabled = true;
             this.IsRemembered = true;
+            
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace Sales.ViewModels
 
         private async void Login()
         {
-            if (string.IsNullOrEmpty(this.EMail))
+            if (string.IsNullOrEmpty(this.Email))
             {
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -76,6 +76,38 @@ namespace Sales.ViewModels
                     Languages.Accept);
                 return;
             }
+
+            this.IsRunning = true;
+            this.IsEnabled = false;
+
+            var conecction = await this.apiService.CheckConnection();
+            if (!conecction.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, conecction.Message, Languages.Accept);
+                return;
+            }
+            var url = Application.Current.Resources["UrlAPI"].ToString();
+            var token = await this.apiService.GetToken(url, this.Email, this.Password);
+
+            if (token == null || string.IsNullOrEmpty(token.AccessToken))
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.SomethingWrong, 
+                    Languages.Accept);
+                return;
+            }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+            await Application.Current.MainPage.DisplayAlert(
+                "ok", 
+                "aca vamos",  
+                Languages.Accept);
         }
         #endregion
     }
