@@ -6,6 +6,8 @@ namespace Sales.ViewModels
     using Xamarin.Forms;
     using Helpers;
     using Services;
+    using Sales.Views;
+    using System;
 
     public class LoginViewModel : BaseViewModel
     {
@@ -102,13 +104,18 @@ namespace Sales.ViewModels
                 return;
             }
 
+            Settings.Token_type = token.TokenType;
+            Settings.Access_token = token.AccessToken;
+            Settings.IsRemembered = this.IsRemembered;
+
+            Application.Current.MainPage = new ProductsPage();
+            MainViewModel.GetIntance().Products = new ProductsViewModel();
+
             this.IsRunning = false;
             this.IsEnabled = true;
-            await Application.Current.MainPage.DisplayAlert(
-                "ok", 
-                "aca vamos",  
-                Languages.Accept);
         }
+
+
         #endregion
     }
 }
