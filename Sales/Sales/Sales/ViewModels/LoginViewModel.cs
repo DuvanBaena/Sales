@@ -55,8 +55,7 @@ namespace Sales.ViewModels
             get
             {
                 return new RelayCommand(Login);
-            }
-           
+            }           
         }
 
         private async void Login()
@@ -108,13 +107,12 @@ namespace Sales.ViewModels
             Settings.Access_token = token.AccessToken;
             Settings.IsRemembered = this.IsRemembered;
 
-            Application.Current.MainPage = new ProductsPage();
             MainViewModel.GetIntance().Products = new ProductsViewModel();
+            Application.Current.MainPage = new MasterPage();
 
             this.IsRunning = false;
             this.IsEnabled = true;
         }
-
 
         #endregion
     }

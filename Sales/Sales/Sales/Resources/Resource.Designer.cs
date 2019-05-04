@@ -295,7 +295,7 @@ namespace Sales.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must enter a fist name..
+        ///   Looks up a localized string similar to You must enter a first name..
         /// </summary>
         public static string FirstNameError {
             get {

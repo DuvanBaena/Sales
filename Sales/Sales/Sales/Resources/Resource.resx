@@ -283,7 +283,7 @@
     <value>Enter your password confirm...</value>
   </data>
   <data name="FirstNameError" xml:space="preserve">
-    <value>You must enter a fist name.</value>
+    <value>You must enter a first name.</value>
   </data>
   <data name="LastNameError" xml:space="preserve">
     <value>You must enter a last name.</value>
