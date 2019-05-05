@@ -50,6 +50,20 @@ namespace Sales.ViewModels
         #endregion
 
         #region Command
+        public ICommand RegisterCommand
+        {
+            get
+            {
+                return new RelayCommand(Register);
+            }
+        }
+
+        private async void Register()
+        {
+            MainViewModel.GetIntance().Register = new RegisterViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage());
+        }
+
         public ICommand LoginCommand
         {
             get
