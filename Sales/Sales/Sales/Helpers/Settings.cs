@@ -20,11 +20,23 @@ namespace Sales.Helpers
 
         private const string token_type = "Token_type";
         private const string access_token = "Access_token";
+        private const string userASP = "UserASP";
         private const string isRemembered = "IsRemembered";
         private static readonly string stringDefault = string.Empty;
         private static readonly bool booleanDefault = false;
         #endregion
 
+        public static string UserASP
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(userASP, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(userASP, value);
+            }
+        }
 
         public static string Token_type
         {

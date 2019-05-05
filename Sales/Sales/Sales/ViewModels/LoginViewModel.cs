@@ -8,6 +8,8 @@ namespace Sales.ViewModels
     using Services;
     using Sales.Views;
     using System;
+    using Sales.Common.Models;
+    using Newtonsoft.Json;
 
     public class LoginViewModel : BaseViewModel
     {
@@ -121,9 +123,19 @@ namespace Sales.ViewModels
             Settings.Access_token = token.AccessToken;
             Settings.IsRemembered = this.IsRemembered;
 
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlUsersController"].ToString();
+            var response = await this.apiService.GetUser(url, prefix, $"{controller}/GetUser", this.Email, token.TokenType, token.AccessToken);
+            if (response.IsSuccess)
+            {
+                var userASP = (MyUserASP)response.Result;
+                MainViewModel.GetIntance().UserASP = userASP;
+                Settings.UserASP = JsonConvert.SerializeObject(userASP);
+            }
+
             MainViewModel.GetIntance().Products = new ProductsViewModel();
             Application.Current.MainPage = new MasterPage();
-
+                       
             this.IsRunning = false;
             this.IsEnabled = true;
         }
