@@ -10,9 +10,12 @@
     <ContentPage.Content>
         <StackLayout
             Padding="5">
-            <Image                
-              Source="buy">
-            </Image>
+            <controls:CircleImage  
+                Source="{Binding UserImageFullPath}"
+                Aspect="AspectFill"
+                WidthRequest="200"
+                HeightRequest="200">
+            </controls:CircleImage>
             <Label
                 FontAttributes="Bold"
                 FontSize="Large"
@@ -22,7 +25,8 @@
             </Label>
             <ListView
                 ItemsSource="{Binding Menu}"
-                HasUnevenRows="True">
+                HasUnevenRows="True"
+                SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

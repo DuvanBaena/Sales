@@ -11,12 +11,15 @@
             BindingContext="{Binding Register}">
             <StackLayout
                 Padding="5">
-                <Image  
-                    Source="{Binding ImageSource}">
+                <controls:CircleImage  
+                    Source="{Binding ImageSource}"
+                    Aspect="AspectFill"
+                    WidthRequest="200"
+                    HeightRequest="200">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
                     </Image.GestureRecognizers>
-                </Image>
+                </controls:CircleImage>
                 <Label
                     FontSize="Small"
                     HorizontalOptions="Center"

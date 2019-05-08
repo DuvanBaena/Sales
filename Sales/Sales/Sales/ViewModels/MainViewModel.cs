@@ -27,6 +27,18 @@
 
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
 
+        public string UserImageFullPath
+        {
+            get
+            {
+                if (this.UserASP != null && this.UserASP.Claims != null && this.UserASP.Claims.Count > 3)
+                {
+                    return $"https://pruebassalesapi.azurewebsites.net{this.UserASP.Claims[3].ClaimValue.Substring(1)}";
+                }
+
+                return null;
+            }
+        }
         public string UserFullName
         {
             get
