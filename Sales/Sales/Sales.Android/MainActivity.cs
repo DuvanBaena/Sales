@@ -1,22 +1,17 @@
 ﻿
 namespace Sales.Droid
 {
-    using System;
     using Android.App;
     using Android.Content.PM;
-    using Android.Runtime;
-    using Android.Views;
-    using Android.Widget;
     using Android.OS;
-    using Plugin.Permissions;
-    using Plugin.CurrentActivity;
     using ImageCircle.Forms.Plugin.Droid;
+    using Plugin.CurrentActivity;
 
     [Activity(
         Label = "Sales",
-        Icon = "@mipmap/icon",
+        Icon = "@drawable/ic_launcher",
         Theme = "@style/MainTheme",
-        MainLauncher = true, 
+        MainLauncher = false, 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
