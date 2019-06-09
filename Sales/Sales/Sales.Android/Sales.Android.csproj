@@ -67,6 +67,12 @@
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Compat">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Auth">
+      <Version>1.6.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="27.0.2.1" />
@@ -76,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\Localize.cs" />
+    <Compile Include="Implementations\LoginFacebookPageRenderer.cs" />
     <Compile Include="Implementations\PathService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -107,12 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\NotImage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sales\Sales.csproj">
-      <Project>{3CF6ACB9-DF21-414B-A1CC-A12EE5B83D2D}</Project>
-      <Name>Sales</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\NoImage.png" />
@@ -191,6 +192,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\splashSales.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sales.Common\Sales.Common.csproj">
+      <Project>{26dabd96-0c04-4eac-a59c-08ad59f6d9a2}</Project>
+      <Name>Sales.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sales\Sales.csproj">
+      <Project>{e9084dd0-2065-485c-aa73-bf8580023189}</Project>
+      <Name>Sales</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
