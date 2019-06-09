@@ -263,6 +263,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="libman.json" />
+    <None Include="Properties\PublishProfiles\BetaSalesApi - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ProjectSalesAPI - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\pruebasSalesAPI - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PruebasSalesAPI - Web Deploy1.pubxml" />

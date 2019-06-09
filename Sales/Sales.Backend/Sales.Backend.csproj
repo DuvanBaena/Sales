@@ -181,6 +181,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FilesHelper.cs" />
+    <Compile Include="Migrations\201906082252168_Initial.cs" />
+    <Compile Include="Migrations\201906082252168_Initial.Designer.cs">
+      <DependentUpon>201906082252168_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -205,6 +209,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\BetaSalesWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\projecctpruebassales - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ProjectSales - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\pruebassales - Web Deploy.pubxml" />
@@ -291,6 +296,11 @@
       <Project>{55b800f0-ca58-48ed-80f5-c87ca7f63346}</Project>
       <Name>Sales.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906082252168_Initial.resx">
+      <DependentUpon>201906082252168_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

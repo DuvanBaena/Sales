@@ -33,6 +33,9 @@ namespace Sales.API
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
+            
+            //Configuration Token for App
+
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),

@@ -42,7 +42,7 @@
                     return "NotImage";
                 }
 
-                return $"https://pruebassalesapi.azurewebsites.net/{this.ImagePath.Substring(1)}";
+                return $"https://betasalesapi.azurewebsites.net/{this.ImagePath.Substring(1)}";
             }
         }
 
