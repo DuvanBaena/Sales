@@ -133,7 +133,7 @@ namespace Sales.ViewModels
                 Settings.UserASP = JsonConvert.SerializeObject(userASP);
             }
 
-            MainViewModel.GetIntance().Products = new ProductsViewModel();
+            MainViewModel.GetIntance().Categories = new CategoriesViewModel();
             Application.Current.MainPage = new MasterPage();
                        
             this.IsRunning = false;
