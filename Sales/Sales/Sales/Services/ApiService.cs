@@ -108,8 +108,8 @@
 
         }
 
-        public async Task<Response> GetList<T>(string urlBase, string prefix, string controller, string tokenType,
-            string accessToken)
+        public async Task<Response> GetList<T>(string urlBase, string prefix, string controller,
+        string tokenType, string accessToken)
         {
             try
             {
@@ -119,14 +119,12 @@
                 var url = $"{prefix}{controller}";
                 var response = await client.GetAsync(url);
                 var answer = await response.Content.ReadAsStringAsync();
-
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response
                     {
                         IsSuccess = false,
                         Message = answer,
-
                     };
                 }
 
@@ -136,7 +134,6 @@
                     IsSuccess = true,
                     Result = list,
                 };
-
             }
             catch (Exception ex)
             {
@@ -146,10 +143,44 @@
                     Message = ex.Message,
                 };
             }
-
-
         }
 
+        public async Task<Response> GetList<T>(string urlBase, string prefix, string controller,
+        int id, string tokenType, string accessToken)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{prefix}{controller}/{id}";
+                var response = await client.GetAsync(url);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var list = JsonConvert.DeserializeObject<List<T>>(answer);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = list,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
         public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model)
         {
             try

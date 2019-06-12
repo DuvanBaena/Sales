@@ -29,14 +29,9 @@ namespace Sales.API.Controllers
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> GetProduct(int id)
         {
-            Product product = await this.db.Products.FindAsync(id);
+            var products = await this.db.Products.Where(p=> p.CategoryId == id).ToListAsync();
 
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(product);
+            return Ok(products);
         }
 
         // PUT: api/Products/5
