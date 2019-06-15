@@ -74,15 +74,13 @@
 
         #region Singleton
 
-        private static ProductsViewModel instance;
-      
+        private static ProductsViewModel instance;      
 
         public static ProductsViewModel GetIntance()
         {
             return instance;
 
         }
-
 
         #endregion
 

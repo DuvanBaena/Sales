@@ -3,6 +3,10 @@
 namespace Sales.ViewModels
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Plugin.Media;
@@ -10,7 +14,7 @@ namespace Sales.ViewModels
     using Sales.Common.Models;
     using Sales.Helpers;
     using Sales.Services;
-    using Xamarin.Forms;   
+    using Xamarin.Forms;
 
     public class AddProductViewModel : BaseViewModel
     {
@@ -26,16 +30,33 @@ namespace Sales.ViewModels
 
         private bool isEnabled;
 
+        private ObservableCollection<Category> categories;
+
+        public Category category;
+
         #endregion
 
         #region Properties
+
+        public List<Category> MyCategories { get; set; }
+
+        public Category Category
+        {
+            get { return this.category; }
+            set { this.SetValue(ref this.category, value); }
+        }
 
         public string Description { get; set; }
 
         public string Price { get; set; }
 
         public string Remarks { get; set; }
-       
+
+        public ObservableCollection<Category> Categories
+        {
+            get { return this.categories; }
+            set { this.SetValue(ref this.categories, value); }
+        }
 
         public bool IsRunning
         {
@@ -67,9 +88,55 @@ namespace Sales.ViewModels
            this.apiService = new ApiService();
            this.IsEnabled = true;
             this.ImageSource = "NotImage";
+            this.LoadCategories();
+        }
+        #endregion
+
+        #region Methods
+        private async void LoadCategories()
+        {
+            this.IsRunning = true;
+            this.IsEnabled = false;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+                return;
+            }
+
+            var answer = await this.LoadCategoriesFromAPI();
+            if (answer)
+            {
+                this.RefreshList();
+               
+            }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
         }
 
+        private void RefreshList()
+        {
+            this.Categories = new ObservableCollection<Category>(this.MyCategories.OrderBy(c => c.Description));
+        }
 
+        private async Task<bool> LoadCategoriesFromAPI()
+        {
+            var url = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlCategoriesController"].ToString();
+            var response = await this.apiService.GetList<Category>(url, prefix, controller, Settings.Token_type, Settings.Access_token);
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            this.MyCategories = (List<Category>)response.Result;
+            return true;
+        }
         #endregion
 
         #region Commands
@@ -168,6 +235,16 @@ namespace Sales.ViewModels
 
             }
 
+            if (this.Category == null)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.CategoryError,
+                    Languages.Accept);
+                return;
+            }
+
+
             this.IsRunning = true;
             this.IsEnabled = false;
 
@@ -195,12 +272,14 @@ namespace Sales.ViewModels
                 Price = price,
                 Remarks = this.Remarks,
                 ImageArray = imageArray,
+                CategoryId = this.Category.CategoryId,
+                UserId = MainViewModel.GetIntance().UserASP.Id,
 
             };
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlProductController"].ToString();
+            var controller = Application.Current.Resources["UrlProductsController"].ToString();
             var response = await this.apiService.Post(url, prefix, controller, product, Settings.Token_type, Settings.Access_token);
 
             if (!response.IsSuccess)
