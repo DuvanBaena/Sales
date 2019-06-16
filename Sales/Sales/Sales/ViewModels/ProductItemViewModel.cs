@@ -74,7 +74,7 @@ namespace Sales.ViewModels
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlProductController"].ToString();
+            var controller = Application.Current.Resources["UrlProductsController"].ToString();
             var response = await this.apiService.Delete(url, prefix, controller, this.ProductId, Settings.Token_type, Settings.Access_token);
             if (!response.IsSuccess)
             {               
