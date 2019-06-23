@@ -6,6 +6,7 @@
     using GalaSoft.MvvmLight.Command;
     using Sales.Common.Models;
     using Sales.Helpers;
+    using Sales.Interfaces;
     using Views;
     using Xamarin.Forms;
 
@@ -73,6 +74,8 @@
             instance = this;
             this.LoadMenu();
         }
+        #endregion
+
         #region Methods
         private void LoadMenu()
         {
@@ -99,7 +102,12 @@
                 Title = Languages.Exit,
             });
         }
-        #endregion
+
+        public void RegisterDevice()
+        {
+            var register = DependencyService.Get<IRegisterDevice>();
+            register.RegisterDevice();
+        }
 
         #endregion
 

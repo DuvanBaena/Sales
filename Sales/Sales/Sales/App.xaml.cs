@@ -31,6 +31,7 @@ namespace Sales
                 if (!string.IsNullOrEmpty(Settings.UserASP))
                 {
                     mainViewModel.UserASP = JsonConvert.DeserializeObject<MyUserASP>(Settings.UserASP);
+                    mainViewModel.RegisterDevice();
                 }
 
                 mainViewModel.Categories = new CategoriesViewModel();
@@ -74,6 +75,7 @@ namespace Sales
             {
                 var userASP = (MyUserASP)response.Result;
                 MainViewModel.GetIntance().UserASP = userASP;
+                MainViewModel.GetIntance().RegisterDevice();
                 Settings.UserASP = JsonConvert.SerializeObject(userASP);
             }
 

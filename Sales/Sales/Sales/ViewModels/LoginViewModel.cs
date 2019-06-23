@@ -130,6 +130,7 @@ namespace Sales.ViewModels
             {
                 var userASP = (MyUserASP)response.Result;
                 MainViewModel.GetIntance().UserASP = userASP;
+                MainViewModel.GetIntance().RegisterDevice();
                 Settings.UserASP = JsonConvert.SerializeObject(userASP);
             }
 
